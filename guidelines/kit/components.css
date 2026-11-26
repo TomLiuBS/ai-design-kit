@@ -1,0 +1,132 @@
+/* ==========================================================================
+   components.css — 共通の基本部品（枠組み）
+   状態：骨組みのみ。見た目の値はすべて design-tokens.css のトークンを参照する。
+   Figma のライブラリを作ったら figma-components-css-sync スキルで上書きする。
+
+   命名
+   - 部品：.btn / .input / .select / .check / .radio / .table / .card / .nav / .tabs / .dialog / .toast / .banner / .empty
+   - 種類・サイズ：--primary / --secondary / --text、--small / --large（Figma の Variant 値と同じ語）
+   - 状態：Figma の state の値と同じ語を is- で付ける（.is-hover / .is-pressed / .is-focused / .is-disabled /
+     .is-selected / .is-error / .is-current）。実際の操作では :hover・:focus-visible・:disabled も効く。
+   部品の一覧と Figma の所在は component-map.md。
+   ========================================================================== */
+
+/* ---------- Base ---------- */
+.kit-root {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body-m);
+  line-height: var(--line-height-base);
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+/* ---------- Button ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--size-control-m);
+  min-width: var(--size-target-min);
+  padding: 0 var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-m);
+  font: inherit;
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: background-color var(--motion-fast) var(--motion-ease), border-color var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease);
+}
+.btn--small { min-height: var(--size-control-s); padding: 0 var(--space-3); font-size: var(--font-size-body-s); }
+.btn--large { min-height: var(--size-control-l); padding: 0 var(--space-6); font-size: var(--font-size-body-l); }
+
+.btn--primary { background: var(--color-primary); color: var(--color-on-primary); }
+.btn--primary:hover, .btn--primary.is-hover { background: var(--color-primary-hover); }
+.btn--primary:active, .btn--primary.is-pressed { background: var(--color-primary-pressed); }
+
+.btn--secondary { background: var(--color-surface); color: var(--color-text); border-color: var(--color-border-strong); }
+.btn--secondary:hover, .btn--secondary.is-hover { background: var(--color-surface-raised); }
+.btn--secondary:active, .btn--secondary.is-pressed { background: var(--color-border); }
+
+.btn--text { background: transparent; color: var(--color-primary); }
+.btn--text:hover, .btn--text.is-hover { background: var(--color-surface-raised); }
+
+.btn:focus-visible, .btn.is-focused { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
+.btn:disabled, .btn.is-disabled { background: var(--color-disabled-bg); color: var(--color-text-disabled); border-color: transparent; cursor: not-allowed; }
+
+/* ---------- Form: label / input / select ---------- */
+.field { display: grid; gap: var(--space-1); }
+.field__label { font-size: var(--font-size-caption); color: var(--color-text-sub); }
+.field__help { font-size: var(--font-size-caption); color: var(--color-text-sub); }
+.field__error { font-size: var(--font-size-caption); color: var(--color-error); }
+
+.input, .select {
+  min-height: var(--size-control-m);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-m);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+.input::placeholder { color: var(--color-text-muted); }
+.input:focus-visible, .input.is-focused, .select:focus-visible, .select.is-focused { outline: 2px solid var(--color-focus-ring); outline-offset: 0; border-color: var(--color-focus-ring); }
+.input.is-error, .select.is-error { border-color: var(--color-error); }
+.input:disabled, .input.is-disabled, .select:disabled, .select.is-disabled { background: var(--color-disabled-bg); color: var(--color-text-disabled); }
+
+/* ---------- Check / Radio ---------- */
+.check, .radio { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--size-target-min); cursor: pointer; }
+.check input, .radio input { width: 18px; height: 18px; accent-color: var(--color-primary); }
+.check.is-disabled, .radio.is-disabled { color: var(--color-text-disabled); cursor: not-allowed; }
+
+/* ---------- Table ---------- */
+.table { width: 100%; border-collapse: collapse; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-m); overflow: hidden; }
+.table th, .table td { padding: var(--space-3) var(--space-4); text-align: left; border-bottom: 1px solid var(--color-border); }
+.table th { font-size: var(--font-size-caption); font-weight: var(--font-weight-medium); color: var(--color-text-sub); background: var(--color-surface-raised); }
+.table .is-number { text-align: right; font-variant-numeric: tabular-nums; }
+.table tr:hover td, .table tr.is-hover td { background: var(--color-surface-raised); }
+.table tr.is-selected td { background: color-mix(in srgb, var(--color-primary) 8%, var(--color-surface)); }
+
+/* ---------- Card ---------- */
+.card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-l); padding: var(--space-5); }
+.card__title { margin: 0 0 var(--space-2); font-size: var(--font-size-heading-s); font-weight: var(--font-weight-medium); }
+.card.is-hover, .card--link:hover { border-color: var(--color-border-strong); box-shadow: var(--shadow-s); }
+.card.is-selected { border-color: var(--color-primary); }
+
+/* ---------- Navigation: header / side nav / tabs ---------- */
+.header { display: flex; align-items: center; gap: var(--space-4); height: var(--layout-header-height); padding: 0 var(--space-6); background: var(--color-surface); border-bottom: 1px solid var(--color-border); }
+.header__title { font-size: var(--font-size-heading-s); font-weight: var(--font-weight-medium); }
+
+.nav { display: grid; gap: var(--space-1); width: var(--layout-sidebar-width); padding: var(--space-4) var(--space-3); }
+.nav__item { display: flex; align-items: center; gap: var(--space-2); min-height: 36px; padding: 0 var(--space-3); border-radius: var(--radius-m); color: var(--color-text-sub); text-decoration: none; }
+.nav__item:hover, .nav__item.is-hover { background: var(--color-surface-raised); color: var(--color-text); }
+.nav__item.is-current { background: var(--color-surface-raised); color: var(--color-text); font-weight: var(--font-weight-medium); }
+
+.tabs { display: flex; gap: var(--space-1); border-bottom: 1px solid var(--color-border); }
+.tabs__item { padding: var(--space-2) var(--space-4); min-height: var(--size-control-m); border: 0; border-bottom: 2px solid transparent; background: none; color: var(--color-text-sub); font: inherit; cursor: pointer; }
+.tabs__item.is-current { color: var(--color-text); border-bottom-color: var(--color-primary); }
+
+/* ---------- Dialog ---------- */
+.dialog-overlay { position: fixed; inset: 0; display: grid; place-items: center; background: var(--color-overlay); padding: var(--space-6); }
+.dialog { width: min(480px, 100%); background: var(--color-surface); border-radius: var(--radius-l); box-shadow: var(--shadow-l); padding: var(--space-6); }
+.dialog__title { margin: 0 0 var(--space-3); font-size: var(--font-size-heading-m); font-weight: var(--font-weight-medium); }
+.dialog__body { margin: 0 0 var(--space-6); color: var(--color-text-sub); }
+.dialog__actions { display: flex; justify-content: flex-end; gap: var(--space-2); }
+
+/* ---------- Feedback: toast / banner / empty ---------- */
+.toast { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-4); border-radius: var(--radius-m); background: var(--color-text); color: var(--color-surface); box-shadow: var(--shadow-m); font-size: var(--font-size-body-s); }
+
+.banner { display: flex; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-radius: var(--radius-m); border: 1px solid currentColor; background: var(--color-surface); color: var(--color-info); }
+.banner__text { color: var(--color-text); }
+.banner--success { color: var(--color-success); }
+.banner--warning { color: var(--color-warning); }
+.banner--error   { color: var(--color-error); }
+
+.empty { display: grid; justify-items: center; gap: var(--space-2); padding: var(--space-12) var(--space-6); text-align: center; color: var(--color-text-sub); }
+.empty__title { font-size: var(--font-size-heading-s); color: var(--color-text); font-weight: var(--font-weight-medium); }
+
+/* ---------- Status dot (意味色 + 文字で表す) ---------- */
+.status { display: inline-flex; align-items: center; gap: var(--space-1); font-size: var(--font-size-body-s); }
+.status::before { content: ""; width: 8px; height: 8px; border-radius: var(--radius-full); background: currentColor; }
+.status--success { color: var(--color-success); }
+.status--warning { color: var(--color-warning); }
+.status--error   { color: var(--color-error); }

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design Kit Showcase</title>
+<link rel="stylesheet" href="design-tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  /* このページのレイアウト専用（見本の並べ方だけ。部品の見た目は components.css） */
+  body { margin: 0; }
+  .sc { max-width: var(--layout-max-width); margin: 0 auto; padding: var(--space-8) var(--space-6) var(--space-16); }
+  .sc h1 { font-size: var(--font-size-heading-l); font-weight: var(--font-weight-medium); margin: 0 0 var(--space-2); }
+  .sc h2 { font-size: var(--font-size-heading-m); font-weight: var(--font-weight-medium); margin: var(--space-12) 0 var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--color-border); }
+  .sc h3 { font-size: var(--font-size-heading-s); font-weight: var(--font-weight-medium); margin: var(--space-6) 0 var(--space-3); }
+  .sc-note { color: var(--color-text-sub); font-size: var(--font-size-body-s); margin: 0; }
+  .sc-row { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: flex-end; }
+  .sc-item { display: grid; gap: var(--space-1); justify-items: start; }
+  .sc-item code, .sc code { font-family: var(--font-family-mono); font-size: var(--font-size-caption); color: var(--color-text-sub); }
+  .sc-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-3); }
+  .sc-sw { border: 1px solid var(--color-border); border-radius: var(--radius-m); overflow: hidden; background: var(--color-surface); }
+  .sc-sw i { display: block; height: 48px; }
+  .sc-sw div { padding: var(--space-2) var(--space-3); }
+  .sc-grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-6); }
+  .sc-space { display: grid; gap: var(--space-2); }
+  .sc-space div { display: flex; align-items: center; gap: var(--space-3); }
+  .sc-bar { height: 12px; background: var(--color-primary); border-radius: 2px; }
+  .sc-space code { display: inline-block; flex: none; }
+  .sc-dialog-demo { position: relative; min-height: 240px; border-radius: var(--radius-l); overflow: hidden; }
+  .sc-dialog-demo .dialog-overlay { position: absolute; }
+  .sc-placeholder { display: inline-block; padding: 0 var(--space-2); border-radius: var(--radius-s); background: var(--color-surface-raised); color: var(--color-text-sub); font-size: var(--font-size-caption); }
+</style>
+</head>
+<body class="kit-root">
+<main class="sc">
+  <h1>Design Kit Showcase</h1>
+  <p class="sc-note">共通デザインシステムの枠組みの見本です。<span class="sc-placeholder">色・数値はすべて仮</span>　値は <code>design-tokens.css</code>、部品は <code>components.css</code>、索引は <code>component-map.md</code>。</p>
+
+  <h2>カラー</h2>
+  <div class="sc-swatches" id="swatches"></div>
+
+  <h2>タイポグラフィ</h2>
+  <div class="sc-space">
+    <div><code style="width:15em">--font-size-heading-l</code><span style="font-size:var(--font-size-heading-l);font-weight:var(--font-weight-medium)">申請一覧</span></div>
+    <div><code style="width:15em">--font-size-heading-m</code><span style="font-size:var(--font-size-heading-m);font-weight:var(--font-weight-medium)">今月の申請</span></div>
+    <div><code style="width:15em">--font-size-heading-s</code><span style="font-size:var(--font-size-heading-s);font-weight:var(--font-weight-medium)">申請の詳細</span></div>
+    <div><code style="width:15em">--font-size-body-m</code><span style="font-size:var(--font-size-body-m)">申請内容を確認してください。</span></div>
+    <div><code style="width:15em">--font-size-caption</code><span style="font-size:var(--font-size-caption);color:var(--color-text-sub)">最終更新 11月26日</span></div>
+  </div>
+
+  <h2>余白</h2>
+  <div class="sc-space" id="spacing"></div>
+
+  <h2>ボタン</h2>
+  <h3>type × state</h3>
+  <div class="sc-row" id="buttons"></div>
+  <h3>size</h3>
+  <div class="sc-row">
+    <div class="sc-item"><button class="btn btn--primary btn--small">送信</button><code>small</code></div>
+    <div class="sc-item"><button class="btn btn--primary">送信</button><code>medium</code></div>
+    <div class="sc-item"><button class="btn btn--primary btn--large">送信</button><code>large</code></div>
+  </div>
+
+  <h2>入力</h2>
+  <div class="sc-grid2">
+    <div class="field"><label class="field__label" for="f1">申請種別</label><select class="select" id="f1"><option>交通費</option><option>備品購入</option></select><span class="field__help">state: normal</span></div>
+    <div class="field"><label class="field__label" for="f2">件名</label><input class="input is-focused" id="f2" value="11月分の交通費"><span class="field__help">state: focused</span></div>
+    <div class="field"><label class="field__label" for="f3">期間</label><input class="input is-error" id="f3" value="2027/13/01" aria-invalid="true" aria-describedby="f3e"><span class="field__error" id="f3e">日付の形式が正しくありません。例：2027/01/31</span></div>
+    <div class="field"><label class="field__label" for="f4">申請番号</label><input class="input" id="f4" value="自動で入ります" disabled><span class="field__help">state: disabled</span></div>
+  </div>
+  <h3>選択</h3>
+  <div class="sc-row">
+    <label class="check"><input type="checkbox" checked> 承認済みを含める</label>
+    <label class="check"><input type="checkbox"> 下書きを含める</label>
+    <label class="radio"><input type="radio" name="r" checked> 今月</label>
+    <label class="radio"><input type="radio" name="r"> 先月</label>
+    <label class="check is-disabled"><input type="checkbox" disabled> 削除済み</label>
+  </div>
+
+  <h2>テーブル</h2>
+  <table class="table">
+    <thead><tr><th>申請種別</th><th>申請者</th><th class="is-number">金額</th><th>状態</th></tr></thead>
+    <tbody>
+      <tr><td>交通費（11月分）</td><td>山田 花子</td><td class="is-number">¥12,480</td><td><span class="status status--success">承認済み</span></td></tr>
+      <tr class="is-selected"><td>備品購入</td><td>佐藤 健</td><td class="is-number">¥4,300</td><td><span class="status status--warning">確認中</span></td></tr>
+      <tr><td>出張旅費</td><td>鈴木 一郎</td><td class="is-number">¥86,900</td><td><span class="status status--error">差し戻し</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2>カード・ナビゲーション</h2>
+  <div class="sc-grid2">
+    <div class="card"><h3 class="card__title">今月の申請</h3><p class="sc-note">12件（うち確認中 3件）</p></div>
+    <div class="card is-selected"><h3 class="card__title">選択中のカード</h3><p class="sc-note">state: selected</p></div>
+  </div>
+  <div class="sc-grid2" style="margin-top:var(--space-6)">
+    <nav class="nav card" aria-label="サイドメニューの見本" style="padding:var(--space-3)">
+      <a class="nav__item is-current" href="#" aria-current="page">申請一覧</a>
+      <a class="nav__item" href="#">新しい申請</a>
+      <a class="nav__item" href="#">承認待ち</a>
+      <a class="nav__item" href="#">設定</a>
+    </nav>
+    <div>
+      <div class="tabs" role="tablist"><button class="tabs__item is-current" role="tab" aria-selected="true">すべて</button><button class="tabs__item" role="tab" aria-selected="false">確認中</button><button class="tabs__item" role="tab" aria-selected="false">承認済み</button></div>
+    </div>
+  </div>
+
+  <h2>フィードバック</h2>
+  <div class="sc-space">
+    <div class="banner"><span class="banner__text">12月29日〜1月3日は承認の処理が止まります。</span></div>
+    <div class="banner banner--success"><span class="banner__text">申請を送信しました。</span></div>
+    <div class="banner banner--warning"><span class="banner__text">添付ファイルがまだありません。</span></div>
+    <div class="banner banner--error"><span class="banner__text">送信できませんでした。通信状態を確認して、もう一度送信してください。</span></div>
+    <div><span class="toast">申請を保存しました</span></div>
+  </div>
+  <div class="card" style="margin-top:var(--space-6)">
+    <div class="empty"><div class="empty__title">申請はまだありません</div><p style="margin:0">新しい申請を作ると、ここに表示されます。</p><button class="btn btn--primary">新しい申請</button></div>
+  </div>
+
+  <h2>ダイアログ</h2>
+  <div class="sc-dialog-demo">
+    <div class="dialog-overlay">
+      <div class="dialog" role="dialog" aria-labelledby="dt" aria-modal="false">
+        <h3 class="dialog__title" id="dt">申請を取り消しますか？</h3>
+        <p class="dialog__body">取り消した申請は元に戻せません。</p>
+        <div class="dialog__actions"><button class="btn btn--secondary">とじる</button><button class="btn btn--primary">取り消す</button></div>
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+  // トークンの一覧を design-tokens.css から読み取って並べる（値を二重に持たないため）
+  const css = getComputedStyle(document.documentElement);
+  const colors = ['--color-primary','--color-primary-hover','--color-text','--color-text-sub','--color-text-muted','--color-bg','--color-surface','--color-surface-raised','--color-border','--color-success','--color-warning','--color-error','--color-info'];
+  document.getElementById('swatches').innerHTML = colors.map(t => `<div class="sc-sw"><i style="background:var(${t})"></i><div><code>${t}</code><br><code>${css.getPropertyValue(t).trim()}</code></div></div>`).join('');
+  const spaces = ['--space-1','--space-2','--space-3','--space-4','--space-6','--space-8','--space-12','--space-16'];
+  document.getElementById('spacing').innerHTML = spaces.map(t => `<div><code style="width:15em">${t}</code><span class="sc-bar" style="width:var(${t})"></span><code>${css.getPropertyValue(t).trim()}</code></div>`).join('');
+  const types = ['primary','secondary','text'];
+  const states = [['normal',''],['hover','is-hover'],['pressed','is-pressed'],['focused','is-focused'],['disabled','is-disabled']];
+  document.getElementById('buttons').innerHTML = types.map(ty => states.map(([s,c]) => `<div class="sc-item"><button class="btn btn--${ty} ${c}" ${s==='disabled'?'disabled':''}>送信</button><code>${ty} / ${s}</code></div>`).join('')).join('<div style="flex-basis:100%"></div>');
+</script>
+</body>
+</html>
